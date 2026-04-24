@@ -1,16 +1,28 @@
-# React + Vite
+# BTech Quiz Portal
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A React + Vite quiz app for BTech students. It starts with a landing page, includes login and signup UI, and then opens a branch-wise quiz experience with subject-level decks.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- Landing page with sign up, log in, and explore options
+- Frontend-only login and signup modal flow
+- Course selection for Computer Science, ECE, Mechanical, and Civil
+- Subject-wise quizzes inside each course
+- Score tracking, progress bar, and review screen
 
-## React Compiler
+## Project Structure
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- `src/App.jsx` handles the landing page, auth modal, and quiz flow
+- `src/data/quizCatalog.js` combines the course data
+- `src/data/*/` stores each course and subject quiz deck separately
 
-## Expanding the ESLint configuration
+## Available Scripts
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- `npm run dev` starts the local development server
+- `npm run build` creates a production build
+- `npm run lint` runs ESLint across the project
+
+## Notes
+
+- The login and signup flow is UI-only for now and does not connect to a backend.
+- Core Computer Science content was merged into the Computer Science course, so CS is the main CS branch in the app.
