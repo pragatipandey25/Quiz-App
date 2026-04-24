@@ -26,3 +26,4 @@ A React + Vite quiz app for BTech students. It starts with a landing page, inclu
 
 - The login and signup flow is UI-only for now and does not connect to a backend.
 - Core Computer Science content was merged into the Computer Science course, so CS is the main CS branch in the app.
+- To count toward your GitHub contribution graph, make sure commit author email matches a verified GitHub email.
