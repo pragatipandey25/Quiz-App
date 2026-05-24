@@ -6,6 +6,65 @@
   gap: 20px;
 }
 
+.site-nav {
+  background: transparent;
+}
+
+.nav-inner {
+  width: min(1080px, calc(100% - 32px));
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 8px 0;
+}
+
+.logo {
+  font-size: 1.1rem;
+  color: #eaf2ff;
+  cursor: pointer;
+}
+
+.nav-links {
+  display: flex;
+  gap: 12px;
+}
+
+.nav-link {
+  background: transparent;
+  border: 0;
+  color: rgba(234, 242, 255, 0.88);
+  cursor: pointer;
+  padding: 8px 12px;
+  border-radius: 8px;
+}
+
+.nav-link:hover {
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.nav-actions {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.site-footer {
+  margin-top: 24px;
+  border-top: 1px solid rgba(255, 255, 255, 0.04);
+  padding: 18px 0;
+}
+
+.footer-inner {
+  width: min(1080px, calc(100% - 32px));
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  color: rgba(231, 235, 244, 0.7);
+}
+
 .landing-shell {
   width: min(1180px, calc(100% - 32px));
   margin: 0 auto;
@@ -70,6 +129,76 @@
 .landing-panel {
   display: grid;
   gap: 14px;
+}
+
+.features-section,
+.courses-section {
+  margin-top: 28px;
+  padding: 20px;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+  margin-top: 14px;
+}
+
+.feature-card {
+  padding: 16px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.03);
+}
+
+.courses-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+  margin-top: 14px;
+}
+
+.course-card {
+  padding: 16px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.feature-backdrop {
+  position: fixed;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background: rgba(2, 6, 16, 0.6);
+  z-index: 80;
+}
+
+.feature-modal {
+  width: min(640px, calc(100% - 48px));
+  border-radius: 14px;
+  padding: 20px;
+  background: rgba(10, 14, 28, 0.98);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  box-shadow: 0 30px 80px rgba(1, 5, 18, 0.5);
+}
+
+.feature-modal header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.feature-modal .feature-body {
+  margin: 16px 0;
+  color: rgba(231, 235, 244, 0.8);
 }
 
 .landing-panel article {

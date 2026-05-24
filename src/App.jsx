@@ -2,7 +2,208 @@ import { useMemo, useState } from "react";
 import "./App.css";
 import quizCatalog, { courseOrder } from "./data/quizCatalog.js";
 
-function LandingPage({ onLogin, onSignup, onExplore }) {
+function Navbar({ user, onLogin, onSignup, onHome, onLogout }) {
+  return (
+    <header className="site-nav">
+      <div className="nav-inner">
+        <div className="logo" onClick={onHome} role="button" tabIndex={0}>
+          <strong>Quiz Lab</strong>
+        </div>
+
+        <nav className="nav-links" aria-label="Main navigation">
+          <button type="button" className="nav-link" onClick={onHome}>
+            Home
+          </button>
+          <a className="nav-link" href="#features">
+            Features
+          </a>
+          <a className="nav-link" href="#courses">
+            Courses
+          </a>
+        </nav>
+
+        <div className="nav-actions">
+          {user ? (
+            <>
+              <span className="user-pill">Hi, {user.name}</span>
+              <button className="secondary-button" onClick={onLogout}>
+                Log out
+              </button>
+            </>
+          ) : (
+            <>
+              <button className="secondary-button" onClick={onLogin}>
+                Log in
+              </button>
+              <button className="primary-button" onClick={onSignup}>
+                Sign up
+              </button>
+            </>
+          )}
+        </div>
+      </div>
+    </header>
+  );
+}
+
+function Footer() {
+  return (
+    <footer className="site-footer">
+      <div className="footer-inner">
+        <div>© {new Date().getFullYear()} Quiz Lab</div>
+        <div>
+          <a href="#">Privacy</a>
+          <span> · </span>
+          <a href="#">Terms</a>
+        </div>
+      </div>
+    </footer>
+  );
+}
+
+function FeatureModal({
+  featureKey,
+  onClose,
+  onPractice,
+  onProgress,
+  onExploreBranches,
+}) {
+  if (!featureKey) return null;
+
+  const FEATURES = {
+    practice: {
+      title: "Practice mode",
+      body: "Choose timed or untimed modes, adjust difficulty, and practice repeatedly until you master the topic.",
+    },
+    progress: {
+      title: "Track progress",
+      body: "Visualize your scores, review incorrect answers, and measure improvement over time.",
+    },
+    branch: {
+      title: "Branch-focused",
+      body: "Organized decks for CS, ECE, ME and CE so you can focus on the subjects that matter.",
+    },
+  };
+
+  const feature = FEATURES[featureKey] || {
+    title: "Feature",
+    body: "Details coming soon.",
+  };
+
+  return (
+    <div className="feature-backdrop" role="presentation" onClick={onClose}>
+      <section
+        className="feature-modal"
+        role="dialog"
+        aria-modal="true"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <header>
+          <h3>{feature.title}</h3>
+          <button
+            type="button"
+            className="icon-button"
+            onClick={onClose}
+            aria-label="Close"
+          >
+            ×
+          </button>
+        </header>
+        <div className="feature-body">
+          <p>{feature.body}</p>
+        </div>
+        <footer>
+          {featureKey === "practice" ? (
+            <button
+              className="primary-button"
+              onClick={() => {
+                onPractice && onPractice();
+                onClose && onClose();
+              }}
+            >
+              Start practice
+            </button>
+          ) : featureKey === "progress" ? (
+            <button
+              className="primary-button"
+              onClick={() => {
+                onProgress && onProgress();
+                onClose && onClose();
+              }}
+            >
+              View progress
+            </button>
+          ) : (
+            <button
+              className="primary-button"
+              onClick={() => {
+                onExploreBranches && onExploreBranches();
+                onClose && onClose();
+              }}
+            >
+              Explore branches
+            </button>
+          )}
+        </footer>
+      </section>
+    </div>
+  );
+}
+
+function ProgressModal({ onClose, score, total, answers }) {
+  return (
+    <div className="feature-backdrop" role="presentation" onClick={onClose}>
+      <section
+        className="feature-modal"
+        role="dialog"
+        aria-modal="true"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <header>
+          <h3>Your progress</h3>
+          <button
+            type="button"
+            className="icon-button"
+            onClick={onClose}
+            aria-label="Close"
+          >
+            ×
+          </button>
+        </header>
+        <div className="feature-body">
+          <p>
+            Score: <strong>{score}</strong> / <strong>{total}</strong>
+          </p>
+          <div className="progress-list">
+            {answers.length ? (
+              answers.map((a, i) => (
+                <div key={i} className="progress-item">
+                  <div>{a.questionId}</div>
+                  <div>{a.correct ? "Correct" : "Wrong"}</div>
+                </div>
+              ))
+            ) : (
+              <p>No attempts yet.</p>
+            )}
+          </div>
+        </div>
+        <footer>
+          <button className="primary-button" onClick={onClose}>
+            Close
+          </button>
+        </footer>
+      </section>
+    </div>
+  );
+}
+
+function LandingPage({
+  onLogin,
+  onSignup,
+  onExplore,
+  onStartCourse,
+  onShowFeature,
+}) {
   return (
     <main className="landing-shell">
       <section className="landing-hero">
@@ -49,6 +250,65 @@ function LandingPage({ onLogin, onSignup, onExplore }) {
             <strong>Structured learning</strong>
             <p>Each branch is split into subject decks for easier revision.</p>
           </article>
+        </div>
+      </section>
+
+      <section id="features" className="features-section">
+        <h2>Features</h2>
+        <div className="features-grid">
+          <article
+            className="feature-card"
+            role="button"
+            tabIndex={0}
+            onClick={() => onShowFeature && onShowFeature("practice")}
+          >
+            <h3>Practice mode</h3>
+            <p>Timed and untimed quizzes to suit focused revision.</p>
+          </article>
+          <article
+            className="feature-card"
+            role="button"
+            tabIndex={0}
+            onClick={() => onShowFeature && onShowFeature("progress")}
+          >
+            <h3>Track progress</h3>
+            <p>See your score, progress and review past answers.</p>
+          </article>
+          <article
+            className="feature-card"
+            role="button"
+            tabIndex={0}
+            onClick={() => onShowFeature && onShowFeature("branch")}
+          >
+            <h3>Branch-focused</h3>
+            <p>Separate decks for CS, ECE, ME and CE subjects.</p>
+          </article>
+        </div>
+      </section>
+
+      <section id="courses" className="courses-section">
+        <h2>Courses</h2>
+        <div className="courses-grid">
+          {courseOrder.map((courseKey) => {
+            const course = quizCatalog[courseKey];
+            return (
+              <article key={courseKey} className="course-card">
+                <div>
+                  <strong>{course.label}</strong>
+                  <p>{course.description}</p>
+                </div>
+                <div>
+                  <button
+                    type="button"
+                    className="primary-button"
+                    onClick={() => onStartCourse && onStartCourse(courseKey)}
+                  >
+                    Start
+                  </button>
+                </div>
+              </article>
+            );
+          })}
         </div>
       </section>
     </main>
@@ -197,6 +457,7 @@ function App() {
   const initialSubject = Object.keys(quizCatalog[initialCourse].subjects)[0];
 
   const [screen, setScreen] = useState("landing");
+  const [selectedFeature, setSelectedFeature] = useState(null);
   const [authMode, setAuthMode] = useState("login");
   const [user, setUser] = useState(null);
   const [selectedCourse, setSelectedCourse] = useState(initialCourse);
@@ -296,6 +557,35 @@ function App() {
     setScreen("quiz");
   };
 
+  const showFeature = (featureKey) => {
+    setSelectedFeature(featureKey);
+  };
+
+  const closeFeature = () => setSelectedFeature(null);
+
+  const [practiceMode, setPracticeMode] = useState(false);
+  const [showProgress, setShowProgress] = useState(false);
+
+  const handlePractice = () => {
+    setPracticeMode(true);
+    startCourse(selectedCourse);
+    enterQuiz();
+  };
+
+  const handleShowProgress = () => {
+    setShowProgress(true);
+  };
+
+  const handleExploreBranches = () => {
+    setScreen("landing");
+    // scroll to courses after render
+    setTimeout(() => {
+      try {
+        window.location.hash = "#courses";
+      } catch (e) {}
+    }, 60);
+  };
+
   const logout = () => {
     setUser(null);
     setScreen("landing");
@@ -305,11 +595,45 @@ function App() {
   if (screen === "landing") {
     return (
       <>
+        <Navbar
+          user={user}
+          onLogin={() => openAuth("login")}
+          onSignup={() => openAuth("signup")}
+          onHome={() => setScreen("landing")}
+          onLogout={logout}
+        />
+
         <LandingPage
           onLogin={() => openAuth("login")}
           onSignup={() => openAuth("signup")}
           onExplore={enterQuiz}
+          onStartCourse={(courseKey) => {
+            startCourse(courseKey);
+            enterQuiz();
+          }}
+          onShowFeature={(k) => showFeature(k)}
         />
+
+        {selectedFeature ? (
+          <FeatureModal
+            featureKey={selectedFeature}
+            onClose={closeFeature}
+            onPractice={handlePractice}
+            onProgress={handleShowProgress}
+            onExploreBranches={handleExploreBranches}
+          />
+        ) : null}
+
+        {showProgress ? (
+          <ProgressModal
+            onClose={() => setShowProgress(false)}
+            score={score}
+            total={questionCount}
+            answers={answers}
+          />
+        ) : null}
+
+        <Footer />
       </>
     );
   }
@@ -317,10 +641,23 @@ function App() {
   if (screen === "auth") {
     return (
       <>
+        <Navbar
+          user={user}
+          onLogin={() => openAuth("login")}
+          onSignup={() => openAuth("signup")}
+          onHome={() => setScreen("landing")}
+          onLogout={logout}
+        />
+
         <LandingPage
           onLogin={() => openAuth("login")}
           onSignup={() => openAuth("signup")}
           onExplore={enterQuiz}
+          onStartCourse={(courseKey) => {
+            startCourse(courseKey);
+            enterQuiz();
+          }}
+          onShowFeature={(k) => showFeature(k)}
         />
         <AuthModal
           mode={authMode}
@@ -332,12 +669,21 @@ function App() {
           }
           onSubmit={handleAuthSubmit}
         />
+
+        <Footer />
       </>
     );
   }
 
   return (
     <main className="app-shell">
+      <Navbar
+        user={user}
+        onLogout={logout}
+        onLogin={() => openAuth("login")}
+        onSignup={() => openAuth("signup")}
+        onHome={() => setScreen("landing")}
+      />
       <header className="app-topbar">
         <div>
           <span className="eyebrow">BTech quiz portal</span>
@@ -530,6 +876,7 @@ function App() {
           </div>
         )}
       </section>
+      <Footer />
     </main>
   );
 }
