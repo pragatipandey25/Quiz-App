@@ -134,7 +134,3 @@ If you add new questions or decks:
 - Update the relevant branch module under `src/data/`.
 
 ---
-
-## 📄 License
-
-MIT (or your preferred license).
